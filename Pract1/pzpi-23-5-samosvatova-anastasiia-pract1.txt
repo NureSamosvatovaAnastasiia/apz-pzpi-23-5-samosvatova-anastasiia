@@ -145,20 +145,20 @@ o додано хронологічний опис.
 
      ДОДАТОК А
      
-Відеозапис презентації результатів практичного заняття: https://youtu.be/cRCpcTaL1iU
+Відеозапис презентації результатів практичного заняття: https://youtu.be/g1HhEc4c2Lo 
 
 
 Хронологічний опис відеозапису:
 00:00 - Вступ. Тема: патерн Factory. Актуальність теми
-00:40 - Визначення та філософія патерна
-02:05 - Структура та учасники патерну
-02:50 - Проблематика та контекст застосування
-03:43 - Застосування Factory Method. Крок 1. Визначення інтерфейсу
-04:18 - Застосування Factory Method. Крок 2. Конкретні класи
-04:53 - Застосування Factory Method. Крок 3. Створення  фабрики та клієнтського коду
-05:39 - Переваги та недоліки Factory Method
-07:04- Порівняння з патерном Abstract Factory 
-08:53 - Висновки
+00:30 - Визначення та філософія патерна
+01:43 - Структура та учасники патерну
+02:15 - Проблематика та контекст застосування
+02:56 - Застосування Factory Method. Крок 1. Визначення інтерфейсу
+03:16 - Застосування Factory Method. Крок 2. Конкретні класи
+03:41 - Застосування Factory Method. Крок 3. Створення  фабрики та клієнтського коду
+04:20 - Переваги та недоліки Factory Method
+05:11- Порівняння з патерном Abstract Factory 
+06:25 - Висновки
 
 ДОДАТОК Б
 Слайди презентації
@@ -198,57 +198,60 @@ o додано хронологічний опис.
 
 ДОДАТОК В
 Приклади програмного коду
-1. using System;
-2. 
-3. public interface IShape
-4. {
-5.     void Draw();
-6. }
-7. 
-8. public class Circle : IShape
-9. {
-10.     public void Draw()
-11.     {
-12.         Console.WriteLine("Намальовано коло");
-13.     }
+1. /*Implement the Factory Method design pattern in C# to manage geometric shapes.
+2. Create an IShape interface with a Draw() method and two concrete implementations: Circle and Rectangle.
+3. Then, define an abstract ShapeCreator class that contains an abstract factory method CreateShape() and a concrete DrawShape() method that calls the factory.
+4. Finally, implement CircleCreator and RectangleCreator and show how to use them in the Main method.*/
+5. 
+6. public interface IShape
+7. {
+8.     void Draw();
+9. }
+10. 
+11. public class Circle : IShape
+12. {
+13.     public void Draw() => Console.WriteLine("Намальовано коло");
 14. }
-15. public class Rectangle : IShape
-16. {
-17.     public void Draw()
-18.     {
-19.         Console.WriteLine("Намальовано прямокутник");
-20.     }
-21. }
-22. 
-23. public static class ShapeFactory
-24. {
-25.     public static IShape CreateShape(string type)
+15. 
+16. public class Rectangle : IShape
+17. {
+18.     public void Draw() => Console.WriteLine("Намальовано прямокутник");
+19. }
+20. 
+21. public abstract class ShapeCreator
+22. {
+23.     public abstract IShape CreateShape();
+24. 
+25.     public void DrawShape()
 26.     {
-27.         if (type == "Circle")
-28.         {
-29.             return new Circle();
-30.         }
+27.         IShape shape = CreateShape();
+28.         shape.Draw();
+29.     }
+30. }
 31. 
-32.         if (type == "Rectangle")
-33.         {
-34.             return new Rectangle();
-35.         }
+32. public class CircleCreator : ShapeCreator
+33. {
+34.     public override IShape CreateShape() => new Circle();
+35. }
 36. 
-37.         throw new ArgumentException("Невідомий тип фігури");
-38.     }
-39. }
-40. 
-41. class Program
-42. {
-43.     static void Main(string[] args)
-44.     {
-45.         IShape shape1 = ShapeFactory.CreateShape("Circle");
-46.         shape1.Draw();
+37. public class RectangleCreator : ShapeCreator
+38. {
+39.     public override IShape CreateShape() => new Rectangle();
+40. }
+41. 
+42. class Program
+43. {
+44.     static void Main(string[] args)
+45.     {
+46.         ShapeCreator creator;
 47. 
-48.         IShape shape2 = ShapeFactory.CreateShape("Rectangle");
-49.         shape2.Draw();
-50.     }
-51. }
+48.         creator = new CircleCreator();
+49.         creator.DrawShape();
+50. 
+51.         creator = new RectangleCreator();
+52.         creator.DrawShape();
+53.     }
+54. }
 
 
 2
