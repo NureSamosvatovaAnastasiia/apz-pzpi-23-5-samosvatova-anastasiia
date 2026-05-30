@@ -1,0 +1,105 @@
+# k8s-manifests.yaml
+
+# 1. База даних (Сервіс та Деплоймент)
+apiVersion: v1
+kind: Service
+metadata:
+  name: agro-db
+spec:
+  selector:
+    app: agro-db
+  ports:
+    - port: 5432
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: agro-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: agro-db
+  template:
+    metadata:
+      labels:
+        app: agro-db
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:15-alpine
+          env:
+            - name: POSTGRES_USER
+              value: "myuser"
+            - name: POSTGRES_PASSWORD
+              value: "mypassword"
+            - name: POSTGRES_DB
+              value: "agro_db"
+          ports:
+            - containerPort: 5432
+
+---
+# 2. Міграції (Job виконається один раз при старті)
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: agro-db-migrate
+spec:
+  template:
+    spec:
+      containers:
+      - name: migrate
+        image: agro-api:latest
+        imagePullPolicy: IfNotPresent # Важливо: беремо локальний образ!
+        command: ["npm", "run", "db:push"]
+        env:
+          - name: DATABASE_URL
+            value: "postgres://myuser:mypassword@agro-db:5432/agro_db"
+      restartPolicy: OnFailure
+
+---
+# 3. API Сервер (Сервіс та Деплоймент)
+apiVersion: v1
+kind: Service
+metadata:
+  name: agro-api-service
+spec:
+  type: ClusterIP
+  selector:
+    app: agro-api
+  ports:
+    - port: 8080       # Порт, на який ми будемо стукатись (Locust)
+      targetPort: 3000 # Внутрішній порт з твого Dockerfile
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: agro-api
+spec:
+  replicas: 1 
+  selector:
+    matchLabels:
+      app: agro-api
+  template:
+    metadata:
+      labels:
+        app: agro-api
+    spec:
+      containers:
+        - name: api
+          image: agro-api:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 3000
+          env:
+            - name: DATABASE_URL
+              value: "postgres://myuser:mypassword@agro-db:5432/agro_db"
+            - name: PORT
+              value: "3000"
+            - name: JWT_SECRET
+              value: "super_secret_key_for_demo"
+          resources:
+            requests:
+              cpu: "100m"
+            limits:
+              cpu: "200m"

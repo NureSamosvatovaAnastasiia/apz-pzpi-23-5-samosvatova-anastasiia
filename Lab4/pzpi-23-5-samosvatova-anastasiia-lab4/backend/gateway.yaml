@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: test-gateway
+spec:
+  containers:
+  - name: nginx
+    image: nginx:alpine
+    command: ["/bin/sh", "-c"]
+    args: 
+      - "echo 'server { listen 80; location / { proxy_pass http://agro-api-service:8080; } }' > /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'"
