@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:AgroSenseMobile.ViewModels"
+             xmlns:models="clr-namespace:AgroSenseMobile.Models"
+             xmlns:strings="clr-namespace:AgroSenseMobile.Resources.Localization"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             x:Class="AgroSenseMobile.Views.GreenhouseDetailPage"
+             x:Name="ThisPage" 
+             Title="{Binding CurrentGreenhouse.Name}">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="🔔" Command="{Binding GoToNotificationsCommand}" />
+    </ContentPage.ToolbarItems>
+
+    <ScrollView Padding="15">
+        <VerticalStackLayout Spacing="20">
+
+            <HorizontalStackLayout Spacing="10" VerticalOptions="Center">
+                <Label Text="{x:Static strings:AppResources.ControlPanelTitle}" FontSize="22" FontAttributes="Bold" />
+                <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" Color="#2e7d32" WidthRequest="20" HeightRequest="20"/>
+            </HorizontalStackLayout>
+
+            <Frame Padding="15" CornerRadius="12" BackgroundColor="{AppThemeBinding Light=#F5F5F5, Dark=#1E1E1E}" BorderColor="Transparent" HasShadow="False">
+                <VerticalStackLayout Spacing="10">
+                    <Grid ColumnDefinitions="*, Auto">
+                        <Label Grid.Column="0" Text="{x:Static strings:AppResources.SensorsSectionTitle}" FontSize="18" FontAttributes="Bold" VerticalOptions="Center"/>
+                        <Button Grid.Column="1" Text="{x:Static strings:AppResources.AddButton}" Command="{Binding AddSensorCommand}" BackgroundColor="#2e7d32" TextColor="White" HeightRequest="35" CornerRadius="8" Padding="10,0"/>
+                    </Grid>
+
+                    <VerticalStackLayout BindableLayout.ItemsSource="{Binding Sensors}" Spacing="10" Margin="0,10,0,0">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate x:DataType="models:Sensor">
+                                <Frame Padding="10" CornerRadius="8" BackgroundColor="{AppThemeBinding Light=White, Dark=#2C2C2E}" BorderColor="Transparent">
+                                    <Grid ColumnDefinitions="*, Auto, Auto, Auto" ColumnSpacing="10">
+
+                                        <VerticalStackLayout Grid.Column="0" VerticalOptions="Center" Spacing="2">
+                                            <Label Text="{Binding Name, TargetNullValue={x:Static strings:AppResources.UnnamedDevice}}" FontAttributes="Bold" FontSize="16"/>
+
+
+                                            <HorizontalStackLayout Spacing="4">
+                                                <Label Text="{x:Static strings:AppResources.TypePrefix}" FontSize="12" TextColor="Gray" TextTransform="Uppercase"/>
+                                                <Label Text="{Binding Type}" FontSize="12" TextColor="Gray" TextTransform="Uppercase"/>
+                                            </HorizontalStackLayout>
+
+                                            <HorizontalStackLayout Spacing="4">
+                                                <Label Text="{x:Static strings:AppResources.UnitPrefix}" FontSize="11" TextColor="LightGray"/>
+                                                <Label Text="{Binding Unit, TargetNullValue={x:Static strings:AppResources.NotSpecified}}" FontSize="11" TextColor="LightGray"/>
+                                            </HorizontalStackLayout>
+                                        </VerticalStackLayout>
+
+                                        <Grid Grid.Column="1" BackgroundColor="Transparent" WidthRequest="30" HeightRequest="30" ToolTipProperties.Text="{x:Static strings:AppResources.TooltipReadings}">
+                                            <Grid.GestureRecognizers>
+                                                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:GreenhouseDetailViewModel}}, Path=ViewSensorReadingsCommand}" CommandParameter="{Binding .}" />
+                                            </Grid.GestureRecognizers>
+                                            <Label Text="📊" FontSize="20" HorizontalOptions="Center" VerticalOptions="Center" />
+                                        </Grid>
+
+
+                                        <Grid Grid.Column="2" BackgroundColor="Transparent" WidthRequest="30" HeightRequest="30" ToolTipProperties.Text="{x:Static strings:AppResources.TooltipEdit}">
+                                            <Grid.GestureRecognizers>
+                                                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:GreenhouseDetailViewModel}}, Path=EditSensorCommand}" CommandParameter="{Binding .}" />
+                                            </Grid.GestureRecognizers>
+                                            <Label Text="⚙️" FontSize="20" HorizontalOptions="Center" VerticalOptions="Center" />
+                                        </Grid>
+
+
+                                        <Grid Grid.Column="3" BackgroundColor="Transparent" WidthRequest="30" HeightRequest="30" ToolTipProperties.Text="{x:Static strings:AppResources.TooltipDelete}">
+                                            <Grid.GestureRecognizers>
+                                                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:GreenhouseDetailViewModel}}, Path=DeleteSensorCommand}" CommandParameter="{Binding .}" />
+                                            </Grid.GestureRecognizers>
+                                            <Label Text="🗑️" FontSize="20" HorizontalOptions="Center" VerticalOptions="Center" />
+                                        </Grid>
+                                    </Grid>
+                                </Frame>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+            </Frame>
+            
+            <Frame Padding="15" CornerRadius="12" BackgroundColor="{AppThemeBinding Light=#F5F5F5, Dark=#1E1E1E}" BorderColor="Transparent" HasShadow="False">
+                <VerticalStackLayout Spacing="10">
+                    <Grid ColumnDefinitions="*, Auto">
+                        <Label Grid.Column="0" Text="{x:Static strings:AppResources.ActuatorsSectionTitle}" FontSize="18" FontAttributes="Bold" VerticalOptions="Center"/>
+                        <Button Grid.Column="1" Text="{x:Static strings:AppResources.AddButton}" Command="{Binding AddActuatorCommand}" BackgroundColor="#0288d1" TextColor="White" HeightRequest="35" CornerRadius="8" Padding="10,0"/>
+                    </Grid>
+
+                    <VerticalStackLayout BindableLayout.ItemsSource="{Binding Actuators}" Spacing="10" Margin="0,10,0,0">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate x:DataType="models:Actuator">
+                                <Frame Padding="10" CornerRadius="8" BackgroundColor="{AppThemeBinding Light=White, Dark=#2C2C2E}" BorderColor="Transparent">
+                                    <Grid ColumnDefinitions="*, Auto, Auto, Auto, Auto" ColumnSpacing="10">
+
+                                        <VerticalStackLayout Grid.Column="0" VerticalOptions="Center" Spacing="2">
+                                            <Label Text="{Binding Name, TargetNullValue={x:Static strings:AppResources.UnnamedDevice}}" FontAttributes="Bold" FontSize="16"/>
+
+                                    
+                                            <HorizontalStackLayout Spacing="4">
+                                                <Label Text="{x:Static strings:AppResources.TypePrefix}" FontSize="12" TextColor="Gray" TextTransform="Uppercase"/>
+                                                <Label Text="{Binding Type}" FontSize="12" TextColor="Gray" TextTransform="Uppercase"/>
+                                            </HorizontalStackLayout>
+
+                                      
+                                            <HorizontalStackLayout Spacing="4">
+                                                <Label Text="{x:Static strings:AppResources.CapacityPrefix}" FontSize="11" TextColor="LightGray"/>
+                                                <Label Text="{Binding Capacity, TargetNullValue={x:Static strings:AppResources.NotSpecified}}" FontSize="11" TextColor="LightGray"/>
+                                            </HorizontalStackLayout>
+                                        </VerticalStackLayout>
+
+                                        <Switch Grid.Column="1" IsToggled="{Binding CurrentState}" VerticalOptions="Center" OnColor="#0288d1">
+                                            <Switch.Behaviors>
+                                                <toolkit:EventToCommandBehavior EventName="Toggled" 
+                                                                                Command="{Binding BindingContext.ToggleActuatorCommand, Source={x:Reference ThisPage}}" 
+                                                                                CommandParameter="{Binding .}" />
+                                            </Switch.Behaviors>
+                                        </Switch>
+
+                                        <Grid Grid.Column="2" BackgroundColor="Transparent" WidthRequest="30" HeightRequest="30" ToolTipProperties.Text="{x:Static strings:AppResources.TooltipLogs}">
+                                            <Grid.GestureRecognizers>
+                                                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:GreenhouseDetailViewModel}}, Path=ViewActuatorLogsCommand}" CommandParameter="{Binding .}" />
+                                            </Grid.GestureRecognizers>
+                                            <Label Text="📋" FontSize="20" HorizontalOptions="Center" VerticalOptions="Center" />
+                                        </Grid>
+
+                                  
+                                        <Grid Grid.Column="3" BackgroundColor="Transparent" WidthRequest="30" HeightRequest="30" ToolTipProperties.Text="{x:Static strings:AppResources.TooltipEdit}">
+                                            <Grid.GestureRecognizers>
+                                                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:GreenhouseDetailViewModel}}, Path=EditActuatorCommand}" CommandParameter="{Binding .}" />
+                                            </Grid.GestureRecognizers>
+                                            <Label Text="⚙️" FontSize="20" HorizontalOptions="Center" VerticalOptions="Center" />
+                                        </Grid>
+
+                                        <Grid Grid.Column="4" BackgroundColor="Transparent" WidthRequest="30" HeightRequest="30" ToolTipProperties.Text="{x:Static strings:AppResources.TooltipDelete}">
+                                            <Grid.GestureRecognizers>
+                                                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:GreenhouseDetailViewModel}}, Path=DeleteActuatorCommand}" CommandParameter="{Binding .}" />
+                                            </Grid.GestureRecognizers>
+                                            <Label Text="🗑️" FontSize="20" HorizontalOptions="Center" VerticalOptions="Center" />
+                                        </Grid>
+
+                                    </Grid>
+                                </Frame>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+            </Frame>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

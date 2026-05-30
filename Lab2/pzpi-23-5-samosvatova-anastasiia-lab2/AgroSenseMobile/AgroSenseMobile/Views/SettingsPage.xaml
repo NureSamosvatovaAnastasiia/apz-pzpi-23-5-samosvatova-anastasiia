@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:AgroSenseMobile.ViewModels"
+             xmlns:strings="clr-namespace:AgroSenseMobile.Resources.Localization"
+             x:Class="AgroSenseMobile.Views.SettingsPage"
+             Title="{x:Static strings:AppResources.SettingsTitle}"
+             BackgroundColor="{AppThemeBinding Light=#F5F5F5, Dark=#121212}">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="25">
+
+            
+            <VerticalStackLayout Spacing="10">
+                <Label Text="{x:Static strings:AppResources.ProfileSection}" 
+                       FontSize="16" 
+                       FontAttributes="Bold" 
+                       TextColor="Gray" 
+                       Margin="5,0,0,0"
+                       TextTransform="Uppercase"/>
+
+                <Frame CornerRadius="12" Padding="20" HasShadow="True" BorderColor="Transparent" BackgroundColor="{AppThemeBinding Light=White, Dark=#1E1E1E}">
+                    <Grid ColumnDefinitions="Auto, *">
+                     
+                        <RoundRectangle Grid.Column="0" CornerRadius="30" WidthRequest="60" HeightRequest="60" Fill="#2e7d32" VerticalOptions="Center"/>
+                        <Label Grid.Column="0" Text="👤" FontSize="30" HorizontalOptions="Center" VerticalOptions="Center" TextColor="White"/>
+
+                        <VerticalStackLayout Grid.Column="1" Margin="15,0,0,0" VerticalOptions="Center" Spacing="5">
+                            <Label Text="{x:Static strings:AppResources.AccountInfo}" FontSize="18" FontAttributes="Bold" TextColor="{AppThemeBinding Light=#333333, Dark=White}"/>
+                            <Label Text="user@example.com" FontSize="14" TextColor="Gray"/>
+                        </VerticalStackLayout>
+                    </Grid>
+                </Frame>
+            </VerticalStackLayout>
+
+            <VerticalStackLayout Spacing="10">
+                <Label Text="{x:Static strings:AppResources.LanguageSection}" 
+                       FontSize="16" 
+                       FontAttributes="Bold" 
+                       TextColor="Gray" 
+                       Margin="5,0,0,0"
+                       TextTransform="Uppercase"/>
+
+                <Frame CornerRadius="12" Padding="15" HasShadow="True" BorderColor="Transparent" BackgroundColor="{AppThemeBinding Light=White, Dark=#1E1E1E}">
+                    <VerticalStackLayout Spacing="15">
+
+                        <HorizontalStackLayout Spacing="10">
+                            <Label Text="🌐" FontSize="20" VerticalOptions="Center"/>
+                            <Label Text="{Binding CurrentLanguage}" FontSize="16" FontAttributes="Bold" VerticalOptions="Center" TextColor="{AppThemeBinding Light=#333333, Dark=White}"/>
+                        </HorizontalStackLayout>
+
+                        <BoxView HeightRequest="1" Color="{AppThemeBinding Light=#EEEEEE, Dark=#333333}" />
+
+                        <Grid ColumnDefinitions="*, Auto">
+                            <Grid.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding ChangeLanguageCommand}" CommandParameter="uk"/>
+                            </Grid.GestureRecognizers>
+                            <Label Grid.Column="0" Text="🇺🇦  Українська" FontSize="16" VerticalOptions="Center" TextColor="{AppThemeBinding Light=#333333, Dark=White}"/>
+                            <Label Grid.Column="1" Text="›" FontSize="24" TextColor="Gray" VerticalOptions="Center"/>
+                        </Grid>
+
+                        <BoxView HeightRequest="1" Color="{AppThemeBinding Light=#EEEEEE, Dark=#333333}" />
+
+                     
+                        <Grid ColumnDefinitions="*, Auto">
+                            <Grid.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding ChangeLanguageCommand}" CommandParameter="en"/>
+                            </Grid.GestureRecognizers>
+                            <Label Grid.Column="0" Text="🇬🇧  English" FontSize="16" VerticalOptions="Center" TextColor="{AppThemeBinding Light=#333333, Dark=White}"/>
+                            <Label Grid.Column="1" Text="›" FontSize="24" TextColor="Gray" VerticalOptions="Center"/>
+                        </Grid>
+
+                    </VerticalStackLayout>
+                </Frame>
+            </VerticalStackLayout>
+
+            <VerticalStackLayout Spacing="5" Margin="0,30,0,0" HorizontalOptions="Center">
+                <Label Text="AgroSense Mobile" FontSize="18" FontAttributes="Bold" TextColor="Gray" HorizontalOptions="Center"/>
+                <Label Text="{x:Static strings:AppResources.AppVersion}" FontSize="14" TextColor="LightGray" HorizontalOptions="Center"/>
+                <Label Text="v1.0.0" FontSize="14" TextColor="LightGray" HorizontalOptions="Center"/>
+            </VerticalStackLayout>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

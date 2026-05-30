@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models="clr-namespace:AgroSenseMobile.Models"
+             xmlns:strings="clr-namespace:AgroSenseMobile.Resources.Localization"
+             x:Class="AgroSenseMobile.Views.SensorReadingsPage"
+             Title="{Binding PageTitle}">
+
+    <Grid RowDefinitions="Auto, *">
+        
+        <Frame Grid.Row="0" Margin="15" Padding="15" CornerRadius="10" BackgroundColor="{AppThemeBinding Light=#e8f5e9, Dark=#1b5e20}" BorderColor="Transparent">
+            <Grid ColumnDefinitions="*, Auto" ColumnSpacing="10">
+                <Entry Grid.Column="0" 
+                       Placeholder="{x:Static strings:AppResources.EnterNewValuePlaceholder}" 
+                       Text="{Binding NewValue}" 
+                       Keyboard="Numeric" 
+                       BackgroundColor="{AppThemeBinding Light=White, Dark=#2c2c2e}"/>
+
+                <Button Grid.Column="1" 
+                        Text="{x:Static strings:AppResources.AddReadingButton}" 
+                        Command="{Binding AddReadingCommand}" 
+                        BackgroundColor="#2e7d32" 
+                        TextColor="White" 
+                        FontAttributes="Bold"/>
+            </Grid>
+        </Frame>
+
+        <RefreshView Grid.Row="1" IsRefreshing="{Binding IsBusy}" Command="{Binding LoadReadingsCommand}">
+            <CollectionView ItemsSource="{Binding Readings}">
+
+                <CollectionView.EmptyView>
+                    <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Spacing="10" Margin="40">
+                        <Label Text="📉" FontSize="50" HorizontalOptions="Center" TextColor="LightGray" />
+                        <Label Text="{x:Static strings:AppResources.EmptyReadingsTitle}" FontSize="18" FontAttributes="Bold" HorizontalOptions="Center" TextColor="Gray"/>
+                    </VerticalStackLayout>
+                </CollectionView.EmptyView>
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:Reading">
+                        <Frame Margin="15,5" Padding="15" CornerRadius="8" HasShadow="False" BorderColor="LightGray">
+                            <Grid ColumnDefinitions="*, Auto">
+                                <HorizontalStackLayout Grid.Column="0" Spacing="5" VerticalOptions="Center">
+                                    <Label Text="{Binding Value, StringFormat='{0:F2}'}" FontSize="20" FontAttributes="Bold" TextColor="#2e7d32"/>
+                                   
+                                    <Label Text="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.CurrentSensor.Unit}" 
+                                           FontSize="16" TextColor="Gray" VerticalOptions="Center"/>
+                                </HorizontalStackLayout>
+
+                                <Label Grid.Column="1" Text="{Binding Timestamp, StringFormat='{0:dd.MM.yyyy HH:mm}'}" TextColor="Gray" VerticalOptions="Center"/>
+                            </Grid>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+
+            </CollectionView>
+        </RefreshView>
+    </Grid>
+</ContentPage>

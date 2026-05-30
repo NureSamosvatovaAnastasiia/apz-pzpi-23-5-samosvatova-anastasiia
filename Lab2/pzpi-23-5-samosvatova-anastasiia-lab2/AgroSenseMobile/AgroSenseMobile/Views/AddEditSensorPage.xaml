@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:AgroSenseMobile.ViewModels"
+             xmlns:strings="clr-namespace:AgroSenseMobile.Resources.Localization"
+             x:Class="AgroSenseMobile.Views.AddEditSensorPage"
+             Title="{Binding PageTitle}">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="15">
+
+            <Label Text="{x:Static strings:AppResources.SensorNameLabel}" FontAttributes="Bold" />
+            <Entry Text="{Binding Name}" Placeholder="{x:Static strings:AppResources.SensorNamePlaceholder}" />
+
+            <Label Text="{x:Static strings:AppResources.SensorTypeLabel}" FontAttributes="Bold" Margin="0,10,0,0"/>
+            <Frame Padding="0" BorderColor="LightGray" CornerRadius="8">
+                <Picker ItemsSource="{Binding SensorTypes}" 
+                        SelectedItem="{Binding SelectedType}" 
+                        Title="{x:Static strings:AppResources.SensorTypePlaceholder}" 
+                        Margin="10,0"/>
+            </Frame>
+
+       
+            <Label Text="{x:Static strings:AppResources.UnitLabel}" FontAttributes="Bold" Margin="0,10,0,0" />
+            <Entry Text="{Binding Unit}" Placeholder="{x:Static strings:AppResources.UnitPlaceholder}" />
+
+          
+            <Button Text="{x:Static strings:AppResources.SaveButton}" 
+                    Command="{Binding SaveCommand}" 
+                    BackgroundColor="#2e7d32" 
+                    TextColor="White" 
+                    Margin="0,20,0,0" 
+                    HeightRequest="50" 
+                    CornerRadius="8" 
+                    FontAttributes="Bold"/>
+
+            <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" HorizontalOptions="Center" Color="#2e7d32" Margin="10"/>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

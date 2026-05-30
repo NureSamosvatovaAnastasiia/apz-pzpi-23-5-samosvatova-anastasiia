@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models="clr-namespace:AgroSenseMobile.Models"
+             xmlns:strings="clr-namespace:AgroSenseMobile.Resources.Localization"
+             x:Class="AgroSenseMobile.Views.ActuatorLogsPage"
+             Title="{Binding PageTitle}">
+
+    <Grid RowDefinitions="Auto, *">
+
+    
+        <Frame Grid.Row="0"
+               Margin="15,15,15,5"
+               Padding="20"
+               CornerRadius="12"
+               BackgroundColor="{AppThemeBinding Light=#E3F2FD, Dark=#0D47A1}"
+               BorderColor="#2196F3">
+
+            <Grid ColumnDefinitions="*, Auto">
+
+                <VerticalStackLayout Grid.Column="0" Spacing="5">
+                    <Label Text="{x:Static strings:AppResources.CurrentDeviceStatus}"
+                           FontSize="13"
+                           TextColor="{AppThemeBinding Light=Gray, Dark=LightGray}"
+                           TextTransform="Uppercase" />
+
+                    <HorizontalStackLayout Spacing="8">
+
+                        <Ellipse WidthRequest="14" HeightRequest="14" VerticalOptions="Center">
+                            <Ellipse.Triggers>
+                                <DataTrigger TargetType="Ellipse" Binding="{Binding CurrentActuator.CurrentState}" Value="True">
+                                    <Setter Property="Fill" Value="#4CAF50" />
+                                </DataTrigger>
+                                <DataTrigger TargetType="Ellipse" Binding="{Binding CurrentActuator.CurrentState}" Value="False">
+                                    <Setter Property="Fill" Value="#F44336" />
+                                </DataTrigger>
+                            </Ellipse.Triggers>
+                        </Ellipse>
+
+                        <Label FontAttributes="Bold" FontSize="18" VerticalOptions="Center">
+                            <Label.Triggers>
+                                <DataTrigger TargetType="Label" Binding="{Binding CurrentActuator.CurrentState}" Value="True">
+                                    <Setter Property="Text" Value="{x:Static strings:AppResources.StateOn}" />
+                                    <Setter Property="TextColor" Value="#4CAF50" />
+                                </DataTrigger>
+                                <DataTrigger TargetType="Label" Binding="{Binding CurrentActuator.CurrentState}" Value="False">
+                                    <Setter Property="Text" Value="{x:Static strings:AppResources.StateOff}" />
+                                    <Setter Property="TextColor" Value="#F44336" />
+                                </DataTrigger>
+                            </Label.Triggers>
+                        </Label>
+
+                    </HorizontalStackLayout>
+                </VerticalStackLayout>
+
+                <VerticalStackLayout Grid.Column="1" HorizontalOptions="End" Spacing="5">
+                    <Label Text="{x:Static strings:AppResources.CapacityPrefix}"
+                           FontSize="13"
+                           TextColor="{AppThemeBinding Light=Gray, Dark=LightGray}"
+                           TextTransform="Uppercase" />
+
+                    <Label Text="{Binding CurrentActuator.Capacity, TargetNullValue={x:Static strings:AppResources.NotSpecified}}"
+                           FontAttributes="Bold"
+                           FontSize="18"
+                           HorizontalOptions="End"/>
+                </VerticalStackLayout>
+
+            </Grid>
+        </Frame>
+
+      
+        <RefreshView Grid.Row="1"
+                     IsRefreshing="{Binding IsBusy}"
+                     Command="{Binding LoadLogsCommand}"
+                     RefreshColor="#2196F3">
+
+      
+            <Grid Padding="15,5,15,15">
+
+                <CollectionView ItemsSource="{Binding Logs}">
+
+                    <CollectionView.EmptyView>
+                        <VerticalStackLayout HorizontalOptions="Center"
+                                             VerticalOptions="Center"
+                                             Spacing="10"
+                                             Margin="40">
+                            <Label Text="📋"
+                                   FontSize="50"
+                                   HorizontalOptions="Center"
+                                   TextColor="LightGray" />
+
+                            <Label Text="{x:Static strings:AppResources.EmptyLogsTitle}"
+                                   FontSize="18"
+                                   FontAttributes="Bold"
+                                   HorizontalOptions="Center"
+                                   TextColor="Gray"/>
+
+                            <Label Text="{x:Static strings:AppResources.EmptyLogsDesc}"
+                                   FontSize="14"
+                                   HorizontalOptions="Center"
+                                   TextColor="Gray"
+                                   HorizontalTextAlignment="Center"/>
+                        </VerticalStackLayout>
+                    </CollectionView.EmptyView>
+
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="models:ActuatorLog">
+
+                            <Frame Margin="0,5"
+                                   Padding="15"
+                                   CornerRadius="10"
+                                   HasShadow="False"
+                                   BorderColor="{AppThemeBinding Light=#E0E0E0, Dark=#404040}"
+                                   BackgroundColor="{AppThemeBinding Light=White, Dark=#1E1E1E}">
+
+                                <Grid RowDefinitions="Auto, Auto"
+                                      ColumnDefinitions="*, Auto">
+
+                                    <HorizontalStackLayout Grid.Row="0"
+                                                           Grid.Column="0"
+                                                           Spacing="8"
+                                                           VerticalOptions="Center">
+
+                                        <Ellipse WidthRequest="12"
+                                                 HeightRequest="12"
+                                                 VerticalOptions="Center">
+                                            <Ellipse.Triggers>
+                                             
+                                                <DataTrigger TargetType="Ellipse" Binding="{Binding State}" Value="True">
+                                                    <Setter Property="Fill" Value="#4CAF50" />
+                                                </DataTrigger>
+                                                <DataTrigger TargetType="Ellipse" Binding="{Binding State}" Value="False">
+                                                    <Setter Property="Fill" Value="#F44336" />
+                                                </DataTrigger>
+                                            </Ellipse.Triggers>
+                                        </Ellipse>
+
+                                        <Label FontAttributes="Bold"
+                                               FontSize="16"
+                                               VerticalOptions="Center">
+                                            <Label.Triggers>
+                                                <DataTrigger TargetType="Label" Binding="{Binding State}" Value="True">
+                                                    <Setter Property="Text" Value="{x:Static strings:AppResources.StateOn}" />
+                                                </DataTrigger>
+                                                <DataTrigger TargetType="Label" Binding="{Binding State}" Value="False">
+                                                    <Setter Property="Text" Value="{x:Static strings:AppResources.StateOff}" />
+                                                </DataTrigger>
+                                            </Label.Triggers>
+                                        </Label>
+
+                                        <Label Text="{Binding Value, StringFormat={x:Static strings:AppResources.LogValueFormat}}"
+                                               TextColor="Gray"
+                                               FontSize="12"
+                                               VerticalOptions="Center">
+                                            <Label.Triggers>
+                                                <DataTrigger TargetType="Label" Binding="{Binding Value}" Value="{x:Null}">
+                                                    <Setter Property="IsVisible" Value="False" />
+                                                </DataTrigger>
+                                            </Label.Triggers>
+                                        </Label>
+
+                                    </HorizontalStackLayout>
+
+                                  
+                                    <Label Grid.Row="0"
+                                           Grid.Column="1"
+                                           Text="{Binding Timestamp, StringFormat='{0:dd.MM.yyyy HH:mm}'}"
+                                           TextColor="Gray"
+                                           FontSize="12"
+                                           VerticalOptions="Center"
+                                           HorizontalOptions="End"/>
+
+                                 
+                                    <Label Grid.Row="1"
+                                           Grid.ColumnSpan="2"
+                                           Text="{Binding Reason, StringFormat={x:Static strings:AppResources.LogReasonFormat}}"
+                                           TextColor="DarkGray"
+                                           FontSize="13"
+                                           Margin="0,8,0,0"
+                                           FontAttributes="Italic" />
+
+                                </Grid>
+                            </Frame>
+
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+
+                </CollectionView>
+
+            </Grid>
+        </RefreshView>
+    </Grid>
+</ContentPage>

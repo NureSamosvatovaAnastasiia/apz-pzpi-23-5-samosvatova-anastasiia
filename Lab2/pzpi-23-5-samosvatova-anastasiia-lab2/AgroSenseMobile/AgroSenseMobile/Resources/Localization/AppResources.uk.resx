@@ -1,0 +1,429 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AccountInfo" xml:space="preserve">
+    <value>Інформація про акаунт</value>
+  </data>
+  <data name="ActuatorsSectionTitle" xml:space="preserve">
+    <value>Актуатори</value>
+  </data>
+  <data name="AddButton" xml:space="preserve">
+    <value>+ Додати</value>
+  </data>
+  <data name="AppVersion" xml:space="preserve">
+    <value>Версія додатку</value>
+  </data>
+  <data name="AreaLabel" xml:space="preserve">
+    <value>Площа:</value>
+  </data>
+  <data name="AreaUnit" xml:space="preserve">
+    <value>м²</value>
+  </data>
+  <data name="CapacityPrefix" xml:space="preserve">
+    <value>Потужність:</value>
+  </data>
+  <data name="ConfirmPasswordPlaceholder" xml:space="preserve">
+    <value>Підтвердження паролю</value>
+  </data>
+  <data name="ControlPanelTitle" xml:space="preserve">
+    <value>Панель керування</value>
+  </data>
+  <data name="DeleteActuatorConfirmMessage" xml:space="preserve">
+    <value>Видалити актуатор '{0}'?</value>
+  </data>
+  <data name="DeleteGreenhouseConfirmMessage" xml:space="preserve">
+    <value>Ви дійсно хочете видалити теплицю '{0}'?</value>
+  </data>
+  <data name="DeleteSensorConfirmMessage" xml:space="preserve">
+    <value>Видалити сенсор '{0}'?</value>
+  </data>
+  <data name="DeleteTitle" xml:space="preserve">
+    <value>Видалення</value>
+  </data>
+  <data name="EmailPlaceholder" xml:space="preserve">
+    <value>Електронна пошта</value>
+  </data>
+  <data name="EmptyGreenhouses" xml:space="preserve">
+    <value>У вас ще немає теплиць. Створіть першу!</value>
+  </data>
+  <data name="ErrorDeleteFailedMessage" xml:space="preserve">
+    <value>Не вдалося видалити: {0}</value>
+  </data>
+  <data name="ErrorDeleteGreenhouse" xml:space="preserve">
+    <value>Не вдалося видалити теплицю. Перевірте з'єднання.</value>
+  </data>
+  <data name="ErrorEmptyFields" xml:space="preserve">
+    <value>Будь ласка, введіть пошту та пароль.</value>
+  </data>
+  <data name="ErrorLoadDevices" xml:space="preserve">
+    <value>Не вдалося завантажити пристрої.</value>
+  </data>
+  <data name="ErrorLoadGreenhouses" xml:space="preserve">
+    <value>Не вдалося завантажити теплиці.</value>
+  </data>
+  <data name="ErrorLoginFailed" xml:space="preserve">
+    <value>Невірні дані</value>
+  </data>
+  <data name="ErrorSyncActuator" xml:space="preserve">
+    <value>Не вдалося змінити стан пристрою на сервері. Його повернуто у попереднє положення.</value>
+  </data>
+  <data name="ErrorTitle" xml:space="preserve">
+    <value>Помилка</value>
+  </data>
+  <data name="ErrorToggleActuator" xml:space="preserve">
+    <value>Не вдалося перемкнути пристрій. Перевірте з'єднання з сервером.</value>
+  </data>
+  <data name="GreenhousesPageTitle" xml:space="preserve">
+    <value>Мої теплиці</value>
+  </data>
+  <data name="LanguageEnglish" xml:space="preserve">
+    <value>Англійська</value>
+  </data>
+  <data name="LanguageSection" xml:space="preserve">
+    <value>Мова</value>
+  </data>
+  <data name="LanguageUkrainian" xml:space="preserve">
+    <value>Українська</value>
+  </data>
+  <data name="LoadingText" xml:space="preserve">
+    <value>Авторизація...</value>
+  </data>
+  <data name="LocationLabel" xml:space="preserve">
+    <value>Локація:</value>
+  </data>
+  <data name="LoginButton" xml:space="preserve">
+    <value>Увійти</value>
+  </data>
+  <data name="LoginTitle" xml:space="preserve">
+    <value>З поверненням!</value>
+  </data>
+  <data name="LogoutButton" xml:space="preserve">
+    <value>Вийти</value>
+  </data>
+  <data name="NoButton" xml:space="preserve">
+    <value>Ні</value>
+  </data>
+  <data name="NotSpecified" xml:space="preserve">
+    <value>Не вказано</value>
+  </data>
+  <data name="OkButton" xml:space="preserve">
+    <value>ОК</value>
+  </data>
+  <data name="PasswordPlaceholder" xml:space="preserve">
+    <value>Пароль</value>
+  </data>
+  <data name="PasswordsDoNotMatch" xml:space="preserve">
+    <value>Паролі не співпадають.</value>
+  </data>
+  <data name="ProfileSection" xml:space="preserve">
+    <value>Профіль</value>
+  </data>
+  <data name="RegisterButton" xml:space="preserve">
+    <value>Реєстрація</value>
+  </data>
+  <data name="RegisterHeader" xml:space="preserve">
+    <value>Створення акаунта</value>
+  </data>
+  <data name="RegisterLink" xml:space="preserve">
+    <value>Немає акаунту? Зареєструватись</value>
+  </data>
+  <data name="RegisterTitle" xml:space="preserve">
+    <value>Реєстрація</value>
+  </data>
+  <data name="SensorsSectionTitle" xml:space="preserve">
+    <value>Сенсори</value>
+  </data>
+  <data name="SettingsTitle" xml:space="preserve">
+    <value>Налаштування</value>
+  </data>
+  <data name="SyncErrorTitle" xml:space="preserve">
+    <value>Помилка синхронізації</value>
+  </data>
+  <data name="TooltipEdit" xml:space="preserve">
+    <value>Редагувати</value>
+  </data>
+  <data name="TooltipLogs" xml:space="preserve">
+    <value>Журнал</value>
+  </data>
+  <data name="TooltipReadings" xml:space="preserve">
+    <value>Історія показників</value>
+  </data>
+  <data name="TypePrefix" xml:space="preserve">
+    <value>Тип:</value>
+  </data>
+  <data name="UnitPrefix" xml:space="preserve">
+    <value>Одиниця виміру:</value>
+  </data>
+  <data name="UnnamedDevice" xml:space="preserve">
+    <value>Без назви</value>
+  </data>
+  <data name="UsernamePlaceholder" xml:space="preserve">
+    <value>Ім'я користувача</value>
+  </data>
+  <data name="VerificationCodePlaceholder" xml:space="preserve">
+    <value>Код підтвердження</value>
+  </data>
+  <data name="VerifyButton" xml:space="preserve">
+    <value>Підтвердити</value>
+  </data>
+  <data name="VerifyError" xml:space="preserve">
+    <value>Невірний код підтвердження.</value>
+  </data>
+  <data name="VerifyInstruction" xml:space="preserve">
+    <value>Введіть код підтвердження, відправлений на вашу пошту.</value>
+  </data>
+  <data name="VerifySuccess" xml:space="preserve">
+    <value>Акаунт успішно підтверджено! Тепер ви можете увійти.</value>
+  </data>
+  <data name="VerifyTitle" xml:space="preserve">
+    <value>Підтвердження пошти</value>
+  </data>
+  <data name="WelcomeMessage" xml:space="preserve">
+    <value>Ласкаво просимо до теплиці!</value>
+  </data>
+  <data name="YesButton" xml:space="preserve">
+    <value>Так</value>
+  </data>
+  <data name="TooltipDelete" xml:space="preserve">
+    <value>Видалити</value>
+  </data>
+  <data name="ActuatorNameLabel" xml:space="preserve">
+    <value>Назва механізму (актуатора) *</value>
+  </data>
+  <data name="ActuatorNamePlaceholder" xml:space="preserve">
+    <value>Напр. Головний насос</value>
+  </data>
+  <data name="ActuatorTypeLabel" xml:space="preserve">
+    <value>Тип пристрою *</value>
+  </data>
+  <data name="ActuatorTypePlaceholder" xml:space="preserve">
+    <value>Оберіть тип механізму...</value>
+  </data>
+  <data name="CapacityLabel" xml:space="preserve">
+    <value>Потужність / Продуктивність (опціонально)</value>
+  </data>
+  <data name="CapacityPlaceholder" xml:space="preserve">
+    <value>напр. 1500 (Ват) або 50 (мл/с)</value>
+  </data>
+  <data name="SaveButton" xml:space="preserve">
+    <value>Зберегти</value>
+  </data>
+  <data name="NewActuatorTitle" xml:space="preserve">
+    <value>Новий актуатор</value>
+  </data>
+  <data name="EditActuatorTitle" xml:space="preserve">
+    <value>Редагування актуатора</value>
+  </data>
+  <data name="ErrorFillNameAndType" xml:space="preserve">
+    <value>Заповніть назву та тип.</value>
+  </data>
+  <data name="ErrorSaveFailed" xml:space="preserve">
+    <value>Помилка збереження: {0}</value>
+  </data>
+  <data name="SensorNameLabel" xml:space="preserve">
+    <value>Назва сенсора *</value>
+  </data>
+  <data name="SensorNamePlaceholder" xml:space="preserve">
+    <value>Напр. Датчик температури 1</value>
+  </data>
+  <data name="SensorTypeLabel" xml:space="preserve">
+    <value>Тип сенсора *</value>
+  </data>
+  <data name="SensorTypePlaceholder" xml:space="preserve">
+    <value>Оберіть тип сенсора...</value>
+  </data>
+  <data name="UnitLabel" xml:space="preserve">
+    <value>Одиниця виміру (опціонально)</value>
+  </data>
+  <data name="UnitPlaceholder" xml:space="preserve">
+    <value>напр. °C, %, ppm</value>
+  </data>
+  <data name="NewSensorTitle" xml:space="preserve">
+    <value>Новий сенсор</value>
+  </data>
+  <data name="EditSensorTitle" xml:space="preserve">
+    <value>Редагування сенсора</value>
+  </data>
+  <data name="ActuatorLogsTitle" xml:space="preserve">
+    <value>Журнал: {0}</value>
+  </data>
+  <data name="CurrentDeviceStatus" xml:space="preserve">
+    <value>ПОТОЧНИЙ СТАТУС ПРИСТРОЮ:</value>
+  </data>
+  <data name="StateOn" xml:space="preserve">
+    <value>УВІМКНЕНО</value>
+  </data>
+  <data name="StateOff" xml:space="preserve">
+    <value>ВИМКНЕНО</value>
+  </data>
+  <data name="EmptyLogsTitle" xml:space="preserve">
+    <value>Журнал порожній</value>
+  </data>
+  <data name="EmptyLogsDesc" xml:space="preserve">
+    <value>Тут з'явиться історія перемикань пристрою.</value>
+  </data>
+  <data name="LogValueFormat" xml:space="preserve">
+    <value>(Значення: {0})</value>
+  </data>
+  <data name="LogReasonFormat" xml:space="preserve">
+    <value>Причина: {0}</value>
+  </data>
+  <data name="ErrorLoadLogs" xml:space="preserve">
+    <value>Не вдалося завантажити історію. Перевірте з'єднання.</value>
+  </data>
+  <data name="SensorReadingsTitle" xml:space="preserve">
+    <value>Показники: {0}</value>
+  </data>
+  <data name="EnterNewValuePlaceholder" xml:space="preserve">
+    <value>Введіть нове значення...</value>
+  </data>
+  <data name="AddReadingButton" xml:space="preserve">
+    <value>+ Додати</value>
+  </data>
+  <data name="EmptyReadingsTitle" xml:space="preserve">
+    <value>Немає записів</value>
+  </data>
+  <data name="ErrorInvalidNumber" xml:space="preserve">
+    <value>Введіть коректне числове значення.</value>
+  </data>
+  <data name="ErrorLoadReadings" xml:space="preserve">
+    <value>Не вдалося завантажити історію показників.</value>
+  </data>
+  <data name="ErrorSaveReading" xml:space="preserve">
+    <value>Не вдалося зберегти показник.</value>
+  </data>
+  <data name="NotificationsTitle" xml:space="preserve">
+    <value>Сповіщення</value>
+  </data>
+  <data name="EmptyNotificationsTitle" xml:space="preserve">
+    <value>Немає сповіщень</value>
+  </data>
+  <data name="EmptyNotificationsDesc" xml:space="preserve">
+    <value>У вас немає нових повідомлень.</value>
+  </data>
+  <data name="MarkAllAsReadTooltip" xml:space="preserve">
+    <value>Позначити всі як прочитані</value>
+  </data>
+  <data name="ErrorLoadNotifications" xml:space="preserve">
+    <value>Не вдалося завантажити сповіщення. Перевірте з'єднання.</value>
+  </data>
+  <data name="GreenhouseLabel" xml:space="preserve">
+    <value>Теплиця:</value>
+  </data>
+</root>

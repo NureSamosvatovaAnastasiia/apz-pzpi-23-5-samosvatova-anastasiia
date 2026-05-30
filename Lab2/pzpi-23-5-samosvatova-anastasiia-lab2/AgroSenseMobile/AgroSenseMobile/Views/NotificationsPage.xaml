@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:AgroSenseMobile.ViewModels"
+             xmlns:models="clr-namespace:AgroSenseMobile.Models"
+             xmlns:strings="clr-namespace:AgroSenseMobile.Resources.Localization"
+             x:Class="AgroSenseMobile.Views.NotificationsPage"
+             Title="{Binding PageTitle}"
+             BackgroundColor="{AppThemeBinding Light=#F5F5F5, Dark=#121212}">
+
+    <ContentPage.ToolbarItems>
+   
+        <ToolbarItem Text="✔✔" 
+                     Command="{Binding MarkAllAsReadCommand}" 
+                     ToolTipProperties.Text="{x:Static strings:AppResources.MarkAllAsReadTooltip}"/>
+    </ContentPage.ToolbarItems>
+
+    <Grid>
+        <RefreshView Command="{Binding LoadNotificationsCommand}" IsRefreshing="{Binding IsRefreshing}" RefreshColor="#2e7d32">
+
+            <Grid Padding="0,15">
+
+                <CollectionView ItemsSource="{Binding Notifications}">
+
+                    <CollectionView.EmptyView>
+                        <VerticalStackLayout HorizontalOptions="Center"
+                                             VerticalOptions="Center"
+                                             Spacing="10"
+                                             Margin="40">
+                          
+                            <Label Text="📭"
+                                   FontSize="50"
+                                   HorizontalOptions="Center"
+                                   TextColor="LightGray" />
+
+                            <Label Text="{x:Static strings:AppResources.EmptyNotificationsTitle}"
+                                   FontSize="18"
+                                   FontAttributes="Bold"
+                                   HorizontalOptions="Center"
+                                   TextColor="Gray"/>
+
+                            <Label Text="{x:Static strings:AppResources.EmptyNotificationsDesc}"
+                                   FontSize="14"
+                                   HorizontalOptions="Center"
+                                   TextColor="Gray"
+                                   HorizontalTextAlignment="Center"/>
+                        </VerticalStackLayout>
+                    </CollectionView.EmptyView>
+
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="models:Notification">
+                            <Frame Margin="15,5"
+                                   Padding="15"
+                                   CornerRadius="12"
+                                   HasShadow="False">
+
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:NotificationsViewModel}}, Path=MarkAsReadCommand}" CommandParameter="{Binding .}"/>
+                                </Frame.GestureRecognizers>
+
+                                <Frame.Triggers>
+                                    <DataTrigger TargetType="Frame" Binding="{Binding IsRead}" Value="False">
+                                        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light=#F5F7FA, Dark=#2A2D30}" />
+                                        <Setter Property="BorderColor" Value="{AppThemeBinding Light=#D1D5DB, Dark=#4B5563}" />
+                                    </DataTrigger>
+
+                                    <DataTrigger TargetType="Frame" Binding="{Binding IsRead}" Value="True">
+                                        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light=White, Dark=#1E1E1E}" />
+                                        <Setter Property="BorderColor" Value="Transparent" />
+                                    </DataTrigger>
+                                </Frame.Triggers>
+
+                                <Grid RowDefinitions="Auto, Auto, Auto"
+                                      ColumnDefinitions="*, Auto">
+
+                                    <HorizontalStackLayout Grid.Row="0"
+                                                           Grid.Column="0"
+                                                           Spacing="8">
+
+                                        <Ellipse WidthRequest="12"
+                                                 HeightRequest="12"
+                                                 VerticalOptions="Center">
+
+                                            <Ellipse.Triggers>
+                                                <DataTrigger TargetType="Ellipse" Binding="{Binding IsRead}" Value="True">
+                                                    <Setter Property="IsVisible" Value="False" />
+                                                </DataTrigger>
+
+                                                <DataTrigger TargetType="Ellipse" Binding="{Binding Severity}" Value="INFO">
+                                                    <Setter Property="Fill" Value="#2196F3" />
+                                                </DataTrigger>
+
+                                                <DataTrigger TargetType="Ellipse" Binding="{Binding Severity}" Value="WARNING">
+                                                    <Setter Property="Fill" Value="#FF9800" />
+                                                </DataTrigger>
+
+                                                <DataTrigger TargetType="Ellipse" Binding="{Binding Severity}" Value="CRITICAL">
+                                                    <Setter Property="Fill" Value="#F44336" />
+                                                </DataTrigger>
+                                            </Ellipse.Triggers>
+                                        </Ellipse>
+
+                                        <Label Text="{Binding Severity}"
+                                               FontAttributes="Bold"
+                                               FontSize="14"
+                                               VerticalOptions="Center"
+                                               TextTransform="Uppercase">
+
+                                            <Label.Triggers>
+                                                <DataTrigger TargetType="Label" Binding="{Binding Severity}" Value="INFO">
+                                                    <Setter Property="TextColor" Value="#2196F3" />
+                                                </DataTrigger>
+
+                                                <DataTrigger TargetType="Label" Binding="{Binding Severity}" Value="WARNING">
+                                                    <Setter Property="TextColor" Value="#FF9800" />
+                                                </DataTrigger>
+
+                                                <DataTrigger TargetType="Label" Binding="{Binding Severity}" Value="CRITICAL">
+                                                    <Setter Property="TextColor" Value="#F44336" />
+                                                </DataTrigger>
+                                            </Label.Triggers>
+                                        </Label>
+                                    </HorizontalStackLayout>
+
+                                    <Label Grid.Row="0"
+                                           Grid.Column="1"
+                                           Text="{Binding CreatedAt, StringFormat='{0:dd.MM HH:mm}'}"
+                                           TextColor="Gray"
+                                           FontSize="12"
+                                           VerticalOptions="Center"/>
+
+                                    <Label Grid.Row="1"
+                                           Grid.ColumnSpan="2"
+                                           Text="{Binding Message}"
+                                           FontSize="15"
+                                           Margin="0,8,0,0"/>
+
+                                    <HorizontalStackLayout Grid.Row="2" Grid.ColumnSpan="2" Spacing="4" Margin="0,6,0,0">
+                                        <HorizontalStackLayout.Triggers>
+                                            <DataTrigger TargetType="HorizontalStackLayout" Binding="{Binding GreenhouseName}" Value="{x:Null}">
+                                                <Setter Property="IsVisible" Value="False" />
+                                            </DataTrigger>
+                                        </HorizontalStackLayout.Triggers>
+
+                                        <Label Text="{x:Static strings:AppResources.GreenhouseLabel}" FontSize="12" TextColor="Gray" FontAttributes="Italic" />
+                                        <Label Text="{Binding GreenhouseName}" FontSize="12" TextColor="Gray" FontAttributes="Italic" />
+                                    </HorizontalStackLayout>
+
+                                </Grid>
+                            </Frame>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+
+                </CollectionView>
+
+            </Grid>
+        </RefreshView>
+    </Grid>
+</ContentPage>

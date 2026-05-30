@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:strings="clr-namespace:AgroSenseMobile.Resources.Localization"
+             x:Class="AgroSenseMobile.Views.LoginPage"
+             Shell.NavBarIsVisible="False">
+
+    <Grid>
+        <ScrollView VerticalOptions="Center">
+            <VerticalStackLayout Spacing="20" Padding="30" MaximumWidthRequest="400" HorizontalOptions="Center">
+
+                <Label Text="AgroSense" 
+                   FontSize="42" 
+                   FontAttributes="Bold" 
+                   HorizontalOptions="Center"
+                       TextColor="#2e7d32"
+                       Margin="0,0,0,60"/>     
+
+                <Label Text="{x:Static strings:AppResources.LoginTitle}" 
+                       FontSize="28" 
+                       FontAttributes="Bold" 
+                       HorizontalOptions="Center"/>
+
+                <Frame CornerRadius="10" Padding="0" HasShadow="False" BorderColor="LightGray">
+                    <Entry Text="{Binding Email}" 
+                           Placeholder="{x:Static strings:AppResources.EmailPlaceholder}" 
+                           Keyboard="Email" 
+                           Margin="15,5"/>
+                </Frame>
+
+             
+                <Frame CornerRadius="10" Padding="0" HasShadow="False" BorderColor="LightGray">
+                    <Entry Text="{Binding Password}" 
+                           Placeholder="{x:Static strings:AppResources.PasswordPlaceholder}" 
+                           IsPassword="True" 
+                           Margin="15,5"/>
+                </Frame>
+
+            
+                <Button Text="{x:Static strings:AppResources.LoginButton}" 
+                        Command="{Binding LoginCommand}"
+                        BackgroundColor="#2e7d32" 
+                        TextColor="White" 
+                        CornerRadius="10" 
+                        HeightRequest="50" 
+                        FontAttributes="Bold"/>
+
+                <Label Text="{x:Static strings:AppResources.RegisterLink}" 
+                       TextColor="#2e7d32" 
+                       HorizontalOptions="Center" 
+                       TextDecorations="Underline"
+                       Margin="0,10,0,30">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding GoToRegisterCommand}" />
+                    </Label.GestureRecognizers>
+                </Label>
+
+                <HorizontalStackLayout HorizontalOptions="Center" Spacing="20">
+                    <Button Text="🇺🇦 Українська" 
+                            Command="{Binding ChangeLanguageCommand}" 
+                            CommandParameter="uk" 
+                            BackgroundColor="Transparent" 
+                            TextColor="Gray" 
+                            FontSize="14"/>
+
+                    <Button Text="🇬🇧 English" 
+                            Command="{Binding ChangeLanguageCommand}" 
+                            CommandParameter="en" 
+                            BackgroundColor="Transparent" 
+                            TextColor="Gray" 
+                            FontSize="14"/>
+                </HorizontalStackLayout>
+
+            </VerticalStackLayout>
+        </ScrollView>
+
+      
+        <Grid BackgroundColor="#80000000" IsVisible="{Binding IsBusy}">
+            <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Spacing="15">
+                <ActivityIndicator IsRunning="True" Color="White" />
+                <Label Text="{x:Static strings:AppResources.LoadingText}" TextColor="White" FontAttributes="Bold" />
+            </VerticalStackLayout>
+        </Grid>
+    </Grid>
+
+</ContentPage>

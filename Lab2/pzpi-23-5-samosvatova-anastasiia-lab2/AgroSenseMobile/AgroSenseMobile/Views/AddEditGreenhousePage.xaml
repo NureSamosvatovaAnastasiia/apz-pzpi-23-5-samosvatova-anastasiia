@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:AgroSenseMobile.ViewModels"
+             x:Class="AgroSenseMobile.Views.AddEditGreenhousePage"
+             Title="{Binding Title}">
+
+    <ScrollView Padding="20">
+        <VerticalStackLayout Spacing="15">
+
+            <Label Text="Назва теплиці *" FontAttributes="Bold" />
+            <Entry Text="{Binding Name}" Placeholder="Напр. Томатна №1" />
+
+        
+            <Label Text="Культура (Що посаджено?)" FontAttributes="Bold" Margin="0,5,0,0"/>
+            <Frame Padding="0" BorderColor="LightGray" CornerRadius="8">
+                <Picker ItemsSource="{Binding Crops}" 
+                        ItemDisplayBinding="{Binding Name}" 
+                        SelectedItem="{Binding SelectedCrop}" 
+                        Title="🌱 Виберіть культуру зі списку" 
+                        Margin="10,0"/>
+            </Frame>
+
+            <Label Text="Локація" FontAttributes="Bold" Margin="0,5,0,0" />
+            <Entry Text="{Binding Location}" Placeholder="Напр. Сектор А" />
+
+            <Grid ColumnDefinitions="*, *" ColumnSpacing="15" Margin="0,5,0,0">
+                <VerticalStackLayout Grid.Column="0" Spacing="5">
+                    <Label Text="Площа (кв.м)" FontAttributes="Bold" />
+                    <Entry Text="{Binding Area}" Keyboard="Numeric" Placeholder="100" />
+                </VerticalStackLayout>
+
+                <VerticalStackLayout Grid.Column="1" Spacing="5">
+                    <Label Text="Висота (м)" FontAttributes="Bold" />
+                    <Entry Text="{Binding Height}" Keyboard="Numeric" Placeholder="3.5" />
+                </VerticalStackLayout>
+            </Grid>
+
+            <Button Text="Зберегти" 
+                    Command="{Binding SaveCommand}" 
+                    BackgroundColor="#2e7d32" 
+                    TextColor="White" 
+                    Margin="0,20,0,0"
+                    HeightRequest="50"
+                    CornerRadius="10"
+                    FontAttributes="Bold"/>
+
+            <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" Color="#2e7d32" HorizontalOptions="Center" Margin="0,10"/>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
