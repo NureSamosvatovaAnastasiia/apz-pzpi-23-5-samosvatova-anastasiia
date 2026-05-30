@@ -1,0 +1,258 @@
+﻿МІНІСТЕРСТВО ОСВІТИ І НАУКИ УКРАЇНИ
+ХАРКІВСЬКИЙ НАЦІОНАЛЬНИЙ УНІВЕРСИТЕТ РАДІОЕЛЕКТРОНІКИ
+
+
+КАФЕДРА ПРОГРАМНОЇ ІНЖЕНЕРІЇ
+
+
+
+
+Звіт
+з лабораторної роботи № 2 з дисципліни
+Архітектура програмного забезпечення
+
+
+
+
+
+Виконала:                                                                Перевірив:
+ст. гр. ПЗПІ-23-5                				ст. викладач кафедри ПІ
+Самосватова Анастасія Русланівна 			Сокорчук Ігор Петрович
+
+
+     
+     
+
+     
+     
+     
+     
+     
+     Харків 2026
+     1 ІСТОРІЯ ЗМІН
+№ДатаВерсія звітуОпис змін та виправлень114.04.20260.1Початкова версія       
+       
+             
+
+
+2 ЗАВДАННЯ
+     
+     Необхідно розробити мобільний програмний застосунок для будь-якої поширеної на сьогодні мобільної платформи. Мобільний застосунок повинен бути частиною системи і повинен взаємодіяти з нею. Звіт повинен містити опис прийнятих інженерних рішень. У ньому повинна бути показана будова мобільного застосунку та його взаємодія з іншими частинами системи.
+     
+
+       
+     3 ОПИС ВИКОНАНОЇ РОБОТИ
+       
+     Мобільний застосунок AgroSense Mobile є клієнтською частиною програмно-апаратного комплексу для автоматизації та моніторингу тепличних господарств. Його головне завдання – надати користувачам (фермерам, агрономам, адміністраторам) зручний інтерфейс для віддаленого керування IoT-пристроями (сенсорами та актуаторами), перегляду аналітики та отримання критичних сповіщень у режимі реального часу. Застосунок розроблено з використанням кросплатформного фреймворку .NET MAUI (Multi-platform App UI), що дозволяє генерувати нативні збірки для Android та iOS з єдиної кодової бази мовою C#. Функціональні можливості системи та ролі користувачів детально проілюстровані на Діаграмі прецедентів (Use Case Diagram) (Рис. 1. Дод. Б).
+     Архітектура всього комплексу побудована за принципом клієнт-серверної взаємодії. Мобільний застосунок виступає виключно як шар представлення (Presentation Layer) і не виконує важких обчислень чи прямого доступу до бази даних. Ця взаємодія структурно зображена на UML Діаграмі компонентів (Component Diagram) (Рис. 2. Дод. Б).
+     Для зв'язку використовується протокол HTTP/HTTPS. Усі запити захищені за допомогою JWT-токенів, які передаються в заголовку Authorization. Послідовність взаємодії клієнта з сервером, від авторизації до керування актуатором, покроково відображена на UML Діаграмі діяльності (Activity Diagram) (Рис. 3. Дод. Б).
+     В основу архітектури покладено патерн MVVM (Model-View-ViewModel). Логічний поділ на шари та простори імен Views, ViewModels, Models, Services показано на UML Діаграмі пакетів (Package Diagram) (Рис. 4. Дод. Б).
+     Шар моделей (Model) Містить класи даних (DTO), які відповідають структурі JSON-відповідей від бекенду. Інженерне рішення: Використано [JsonPropertyName] для мапінгу та [JsonIgnore] для обчислюваних властивостей, призначених виключно для UI. Приклад коду (Models/Greenhouse.cs):
+     Назва інструменту ШІ: Google Gemini 1.5 Pro
+     Промпт для створення коду: "Create a C# Data Transfer Object (DTO) model named 'Greenhouse' for a .NET MAUI application. Map the properties to a Node.js JSON response using the [JsonPropertyName] attribute to convert from camelCase to PascalCase. Include properties for Id, Name, and ActiveCrop. Also, provide an example of how to add a UI-specific computed property using [JsonIgnore] that formats the crop name with an emoji."
+     Внесок автора: Додано атрибути мапінгу та розроблено обчислювану властивість CropDisplayName для потреб UI.
+     
+1. public class Greenhouse
+2. {
+3.     [JsonPropertyName("id")]
+4.     public string Id { get; set; }
+5. 
+6.     [JsonPropertyName("name")]
+7.     public string Name { get; set; }
+8. 
+9.     [JsonPropertyName("activeCrop")]
+10.     public Crop ActiveCrop { get; set; }
+11. 
+12.     // Безпечна властивість для відображення в UI (ігнорується при відправці)
+13.     [JsonIgnore]
+14.     public string CropDisplayName 
+15.     {
+16.         get => (ActiveCrop != null && !string.IsNullOrWhiteSpace(ActiveCrop.Name)) 
+17.                ? $" {ActiveCrop.Name}" 
+18.                : " None";
+19.     }
+20. }
+       
+     Шар логіки відображення (ViewModel). Реалізований з використанням бібліотеки CommunityToolkit.Mvvm. Замість ручної реалізації INotifyPropertyChanged, використано генератори коду ([ObservableProperty], [RelayCommand]), що значно зменшує кількість шаблонного коду. Приклад коду (ViewModels/LoginViewModel.cs)
+     Назва інструменту ШІ: Google Gemini 1.5 Pro
+     Промпт для створення коду: "Act as a .NET MAUI expert. Generate a LoginViewModel class using the CommunityToolkit.Mvvm library. Implement ObservableProperty fields for email, password, and an IsBusy loading state. Create an asynchronous RelayCommand for the login process that calls an injected AuthService, handles potential exceptions, and navigates to the GreenhousesPage upon successful authentication using Shell routing."
+     Внесок автора: Імплементовано виклик AuthService, додано локалізовану обробку помилок та безпечну навігацію Shell.
+
+1. public partial class LoginViewModel : ObservableObject
+2. {
+3.     private readonly AuthService _authService;
+4. 
+5.     [ObservableProperty] private string email;
+6.     [ObservableProperty] private string password;
+7.     [ObservableProperty] private bool isBusy;
+8. 
+9.     public LoginViewModel(AuthService authService) { _authService = authService; }
+10. 
+11.     [RelayCommand]
+12.     private async Task LoginAsync()
+13.     {
+14.         IsBusy = true;
+15.         try {
+16.             var response = await _authService.LoginAsync(Email, Password);
+17.             if (response != null && !string.IsNullOrEmpty(response.Token))
+18.                 await Shell.Current.GoToAsync("//GreenhousesPage");
+19.         }
+20.         finally { IsBusy = false; }
+21.     }
+22. }
+       
+     Шар представлення (View - XAML) Інтерфейс повністю відокремлений від логіки. Використовуються механізми DataTrigger для реактивної зміни UI без написання C# коду. Приклад коду (Views/LoginPage.xaml):
+     Назва інструменту ШІ: Google Gemini 1.5 Pro -->
+     Промпт для створення коду: "Create XAML ActivityIndicator for loading state in MAUI"
+     Внесок автора: Налаштовано Data Binding та адаптовано стилістику компонента під загальний дизайн системи.
+     
+1. <!-- Індикатор завантаження, який реагує на зміну змінної IsBusy у ViewModel -->
+2. <ActivityIndicator IsRunning="{Binding IsBusy}" 
+3.                    IsVisible="{Binding IsBusy}" 
+4.                    HorizontalOptions="Center" 
+5.                    Color="#2e7d32"/>
+6. 
+     
+     Впровадження залежностей (Dependency Injection - DI). Замість створення об'єктів через new, реалізовано централізований IoC-контейнер. Це робить сервіси Singleton-об'єктами, а сторінки – Transient (створюються наново при кожному відкритті). Приклад коду (MauiProgram.cs):
+     Назва інструменту ШІ: Google Gemini 1.5 Pro
+     Промпт для створення коду: "Provide an example of configuring the Dependency Injection (DI) container in MauiProgram.cs for a .NET MAUI application. Show how to register a singleton ApiService and AuthService for HTTP communication, and how to register a LoginViewModel and LoginPage as transient services to ensure proper memory management and state reset upon navigation."
+     Внесок автора: Визначено життєвий цикл сервісів (Singleton) та сторінок (Transient) згідно з бізнес-логікою.
+     
+1. public static MauiApp CreateMauiApp()
+2. {
+3.     var builder = MauiApp.CreateBuilder();
+4.     // ... конфігурація шрифтів ...
+5. 
+6.     // Реєстрація сервісів (Singleton)
+7.     builder.Services.AddSingleton<ApiService>();
+8.     builder.Services.AddSingleton<AuthService>();
+9. 
+10.     // Реєстрація ViewModels та Views (Transient)
+11.     builder.Services.AddTransient<LoginViewModel>();
+12.     builder.Services.AddTransient<LoginPage>();
+13. 
+14.     return builder.Build();
+15. }
+16. 
+
+     Централізована робота з мережею (ApiService). Створено базовий клас, який інкапсулює логіку роботи з HttpClient. Інженерне рішення: Метод AddAuthorizationHeaderAsync автоматично дістає JWT зі сховища і додає його до кожного запиту. Також реалізовано метод PatchRawAsync для точкового керування IoT. Приклад коду (Services/ApiService.cs):
+     Назва інструменту ШІ: Google Gemini 1.5 Pro
+     Промпт для створення коду: "Write an ApiService class in C# for a .NET MAUI app. The service should encapsulate an HttpClient instance. Implement a method that asynchronously retrieves a JWT token from SecureStorage and attaches it as a Bearer token to the DefaultRequestHeaders. Also, provide a generic method for sending PATCH requests (PatchRawAsync) with JSON content, returning the raw HttpResponseMessage."
+     Внесок автора: Реалізовано метод PatchRawAsync для взаємодії з IoT та додано безпечне зчитування токену з SecureStorage.
+     
+1. private async Task AddAuthorizationHeaderAsync()
+2. {
+3.     var token = await SecureStorage.Default.GetAsync("jwt_token");
+4.     if (!string.IsNullOrEmpty(token))
+5.     {
+6.         _httpClient.DefaultRequestHeaders.Authorization = 
+7.             new AuthenticationHeaderValue("Bearer", token);
+8.     }
+9. }
+10. 
+11. public async Task<HttpResponseMessage> PatchRawAsync(string endpoint, object data)
+12. {
+13.     await AddAuthorizationHeaderAsync();
+14.     var jsonContent = JsonContent.Create(data);
+15.     return await _httpClient.PatchAsync(endpoint, jsonContent);
+16. }
+17.
+
+     Локалізація (I18n) "на льоту". Для мультиязичності реалізовано кастомний IMarkupExtension, який підписується на події зміни культури. Це дозволяє змінювати мову без перезавантаження додатка. Приклад коду (Helpers/TranslateExtension.cs):
+     Назва інструменту ШІ: Google Gemini 1.5 Pro
+     Промпт для створення коду: "Design a custom IMarkupExtension named 'TranslateExtension' for .NET MAUI to enable dynamic localization without app restarts. The extension should take a string key and return a Binding object. The binding source must point to a singleton LocalizationResourceManager that implements INotifyPropertyChanged, allowing the UI to update automatically when the culture changes."
+     Внесок автора: Налаштовано динамічну прив'язку до локального ресурсу для зміни мови інтерфейсу без перезавантаження.
+1. [ContentProperty(nameof(Name))]
+2. public class TranslateExtension : IMarkupExtension<BindingBase>
+3. {
+4.     public string Name { get; set; }
+5. 
+6.     public BindingBase ProvideValue(IServiceProvider serviceProvider)
+7.     {
+8.         return new Binding {
+9.             Mode = BindingMode.OneWay,
+10.             Path = $"[{Name}]",
+11.             Source = LocalizationResourceManager.Instance // Джерело, що генерує PropertyChanged
+12.         };
+13.     }
+14. }  
+15.
+16.
+
+     Використання в XAML: Text="{helpers:Translate LoginTitle}"
+     Асинхронне фонове оновлення (Polling) та Оптимістичний UI. Для модуля "Сповіщення" (Notifications) використано механізм фонового опитування сервера за допомогою IDispatcherTimer.. Інженерне рішення: Оптимістичне оновлення – статус прочитання миттєво змінюється в локальній пам'яті (UI реагує за мілісекунди), а HTTP-запит відправляється у фоні. Приклад коду (ViewModels/NotificationsViewModel.cs)
+     Назва інструменту ШІ: Google Gemini 1.5 Pro
+     Промпт для створення коду: "Write a RelayCommand method in C# for a .NET MAUI ViewModel that marks a notification as read. Implement the 'Optimistic UI' pattern: first, immediately update the 'IsRead' property of the notification in the local ObservableCollection (triggering a UI refresh by removing and re-inserting the item), and then perform the asynchronous network call to the NotificationService to sync the state with the server. Wrap the network call in a try-catch block."
+     Внесок автора: Реалізовано миттєве оновлення списку в UI за допомогою маніпуляцій з ObservableCollection до отримання відповіді від сервера.
+     
+1. [RelayCommand]
+2. private async Task MarkAsReadAsync(Notification notification)
+3. {
+4.     if (notification == null || notification.IsRead) return;
+5. 
+6.     // 1. Оптимістичне оновлення UI (Миттєва реакція)
+7.     notification.IsRead = true;
+8.     var index = Notifications.IndexOf(notification);
+9.     if (index >= 0) {
+10.         Notifications.RemoveAt(index);
+11.         Notifications.Insert(index, notification);
+12.     }
+13. 
+14.     // 2. Фонова відправка на сервер
+15.     try {
+16.         await _notificationService.MarkAsReadAsync(notification.Id);
+17.     } catch (Exception ex) {
+18.         // Логування помилки
+19.     }
+20. }
+
+     Оптимізація компіляції (Trimming). Через використання патерну MVVM (який покладається на рефлексію для Data Binding), в режимі Release було змінено налаштування оптимізатора (Linker), щоб уникнути випадкового видалення використовуваного коду. У файлі .csproj було налаштовано <PublishTrimmed>false</PublishTrimmed> та генерацію Debug Symbols для стабільності на Android.
+     Під час розробки програмного забезпечення та підготовки цієї документації використовувались технології штучного інтелекту як допоміжний інструмент.
+     Назва інструменту ШІ та версія: Google Gemini 1.5 Pro.
+     Мета використання ШІ: Генерація базового шаблонного коду для .NET MAUI, допомога у побудові структури патерну MVVM (Model-View-ViewModel), генерація класів моделей (DTO) на основі JSON-відповідей та створення оптимізованих фрагментів XAML-розмітки.
+     Промпт для створення коду (англійською мовою): "Act as a Senior .NET MAUI Developer. Generate MVVM C# code, backend communication services, and XAML views for an IoT Greenhouse mobile application. Use CommunityToolkit.Mvvm for logic and implement a centralized ApiService for REST communication."
+     Внесок автора: Згенеровані ШІ фрагменти коду були критично проаналізовані, перевірені та протестовані в середовищі Visual Studio. Було власноруч модифіковано логіку взаємодії з REST API відповідно до реальної архітектури серверної частини, виправлено проблеми з Data Binding та оптимізацією (Trimming/AOT) при збірці Release-версії для Android. Також було самостійно інтегровано кастомний механізм локалізації UI та оптимістичного оновлення стану застосунку.
+
+
+       
+     4 ВИСНОВКИ
+       
+     У ході виконання лабораторної роботи було успішно розроблено та реалізовано повноцінний мобільний застосунок для взаємодії з IoT-пристроями. Обраний стек технологій, .NET MAUI та CommunityToolkit.Mvvm, а також використані архітектурні рішення, такі як dependency injection, єдина точка роботи з API та оптимістичний UI, дозволили створити масштабований, модульний і продуктивний мобільний клієнт. Завдяки низькій зв’язності компонентів застосунок легко адаптується до нових вимог і може бути розширений без необхідності масштабного рефакторингу існуючого коду, що особливо важливо при додаванні нових IoT-пристроїв або функціональних можливостей. Отриманий результат демонструє ефективність використаного підходу та підтверджує доцільність застосування сучасних інструментів і патернів розробки для створення кросплатформених мобільних рішень.
+       
+       
+       
+     
+
+       
+     ДОДАТОК А
+     Відеозапис
+     
+     Відеозапис презентації результатів лабораторної роботи: https://youtu.be/oYKZAoRuerg
+     Хронологічний опис відеозапису:
+     00:00 - Тема та вступ
+     00:43 - Архітектура і технічний стек
+     02:00 - Перевірка роботи локалізації
+     02:16 - Створення нового акаунту
+     03:27 - Додавання нової теплиці, її редагування
+     04:40 - Додавання нових сенсорів та актуаторів до теплиці
+     06:23 -  Емуляція роботи теплиці
+       
+       
+     
+
+     ДОДАТОК Б
+     Графічні матеріали
+       
+
+     Рисунок 1 — Діаграма прецедентів
+       
+       
+Рисунок 2 — Діаграма компонентів
+
+
+     Рисунок 3 — Діаграма діяльності
+       
+       
+Рисунок 4 — Діаграма пакетів
+       
+
